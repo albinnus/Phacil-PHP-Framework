@@ -1,0 +1,15 @@
+<?php 
+    echo HTML::begin('div')->class('hero-unit');
+        echo HtML::h1('Phacil PHP Framework');
+        echo HtML::p('Um framework em php um pouco diferente.');
+        echo HtML::p()->inject(HTMl::a('Documentação')->href('#')->class('btn btn-primary btn-large'));
+    echo HTML::end('div');
+    
+    echo HTML::div('Versão 0.9')->class('alert alert-info');
+    echo HTML::div('Hash não modificado')->class('alert alert-danger');
+    echo HTML::div('PHP 5.3')->class('alert alert-success');
+    
+    echo HTML::h3('O que há de novo nessa versão');
+    
+    echo HTML::a('Cheque outras versões')->href('#');
+?>
