@@ -7,20 +7,20 @@
 class Database {
     
     public static $default = array(
-        'driver' => "mysql",
-        'host' => "localhost",     
-        'database' => "phacil",
-        'user' => "root",
-        'password' => "asd123",
+        'driver' => "driver",
+        'host' => "host",     
+        'database' => "database",
+        'user' => "user",
+        'password' => "",
         'port' => "", 
     );
     
-    public static $novosga = array(
-        'driver' => "mysql",
+    public static $dev = array(
+        'driver' => "driver",
         'host' => "localhost",     
-        'database' => "novosga",
-        'user' => "root",
-        'password' => "asd123",
+        'database' => "database",
+        'user' => "user",
+        'password' => "",
         'port' => "", 
     );
     
