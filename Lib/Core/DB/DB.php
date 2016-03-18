@@ -5,8 +5,7 @@
  * @author alisson
  */
 class DB {
-    //put your code here
-    
+        
     private static $dbConfigs = array();
     public static $dbConfig = 'default';    
     
