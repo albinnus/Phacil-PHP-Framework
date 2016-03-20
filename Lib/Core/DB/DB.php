@@ -4,6 +4,9 @@
  *
  * @author alisson
  */
+
+require 'QueryBuilder.php';
+
 class DB {
         
     private static $dbConfigs = array();
@@ -13,12 +16,7 @@ class DB {
         
         $dbConfig = Database::$$var;
         
-        $pdo = new PDO("{$dbConfig['driver']}:host={$dbConfig['host']};dbname={$dbConfig['database']}", $dbConfig['user'], $dbConfig['password']);
-
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $pdo->setAttribute(PDO::ATTR_CASE, PDO::CASE_LOWER);
-
-        return new FluentPDO($pdo);
+        return new QueryBuilder($dbConfig);
     }
 
     public static function __callStatic($name, $arguments) {
@@ -29,6 +27,14 @@ class DB {
         
         $connection = self::$dbConfigs[self::$dbConfig];
         
-        return call_user_func_array(array($connection,$name), $arguments);
+        if(method_exists($connection, $name)){
+            return call_user_func_array(array($connection, $name), $arguments);
+        }else{
+            $connection2 = call_user_func_array(array($connection,'table'), (array) $name);
+        
+            $args = !empty($arguments)?$arguments:array('1', '1');
+
+            return call_user_func_array(array($connection2,'where'), $args);
+        }
     } 
 }

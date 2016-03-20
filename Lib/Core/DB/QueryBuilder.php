@@ -70,7 +70,7 @@ class QueryBuilder
         return $this->pdo;
     }
 	
-    public function select($select) {
+    public function select($select='*') {
         if(is_array($select)){
             $this->select = implode(', ', $select);
         }else{
@@ -93,7 +93,11 @@ class QueryBuilder
 
         return $this;
     }
-	
+    
+    public function from($from){
+        return $this->table($from);
+    }
+
     public function join($table, $field1, $op = null, $field2 = null, $join = '') {
         if(is_array($table)){
             $q = '';
@@ -354,35 +358,19 @@ class QueryBuilder
         die($msg);
     }
 
-    public function get($array = false){
-        $query = 'SELECT ' . $this->select . ' FROM ' . $this->from;
-
-        if (!is_null($this->join)){
-            $query .= $this->join;
+    public function get($limit = null, $limitEnd = null){
+       
+        if($limit){
+            $this->limit($limit);
         }
-
-        if (!is_null($this->where)){
-            $query .= ' WHERE ' . $this->where;
-        }
-
-        if (!is_null($this->groupBy)){
-            $query .= ' GROUP BY ' . $this->groupBy;
-        }
-
-        if (!is_null($this->having)){
-            $query .= ' HAVING ' . $this->having;
-        }
-
-        if (!is_null($this->orderBy)){
-                $query .= ' ORDER BY ' . $this->orderBy;
-        }
-
-        $query  .= ' LIMIT 1';
-
-        return $this->query($query, false, $array);
+        
+        $all = ($limit == 1)?false:true;
+        
+        
+        return $this->getAll(false, $all);
     }
 
-    public function getAll($array = false){
+    public function getAll($array = false, $all = false){
         $query = 'SELECT ' . $this->select . ' FROM ' . $this->from;
 
         if (!is_null($this->join)){
@@ -409,7 +397,7 @@ class QueryBuilder
             $query .= ' LIMIT ' . $this->limit;
         }
 
-        return $this->query($query, true, $array);
+        return $this->query($query, $all, $array);
     }
 
     public function insert($data){
@@ -450,8 +438,7 @@ class QueryBuilder
         return $this->query($query);
     }
 
-    public function delete()
-    {
+    public function delete(){
         $query = 'DELETE FROM ' . $this->from;
 
         if (!is_null($this->where)){

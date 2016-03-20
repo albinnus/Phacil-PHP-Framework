@@ -10,9 +10,11 @@ class Database {
         'driver' => "driver",
         'host' => "host",     
         'database' => "database",
-        'user' => "user",
+        'username' => "user",
         'password' => "",
-        'port' => "", 
+        // 'port' => "", 
+       // 'charset' => 'utf-8',
+       // 'prefix' => '',
     );
     
     public static $dev = array(
